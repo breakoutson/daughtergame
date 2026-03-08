@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마법의 공주 마을 & 펫 키우기</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="game-world" id="game-world">
+        <!-- 배경 -->
+        <div class="world-background"></div>
+
+        <!-- 마을 요소들 (클릭 가능) -->
+        <div class="npc-shop pet-shop" id="btn-pet-shop" title="펫 샵"></div>
+        <div class="npc-shop boutique" id="btn-boutique" title="부띠끄"></div>
+
+        <!-- 보물 상자 -->
+        <div class="magic-chest" id="magic-chest">
+            <img src="assets/chest.png" alt="보물상자">
+            <div class="chest-cost">50 💰</div>
+        </div>
+
+        <!-- 캐릭터 & 펫 -->
+        <div class="entity-container" id="player-contain">
+            <div class="character-wrapper" id="player">
+                <img src="assets/character.png" alt="내 캐릭터" class="player-sprite">
+                <div id="outfit-layers"></div>
+            </div>
+
+            <div class="pet-wrapper" id="pet">
+                <div class="mood-bubble" id="pet-mood">🍔</div>
+                <img src="assets/bunny.png" alt="내 친구 토끼" class="pet-sprite">
+            </div>
+        </div>
+
+        <!-- 상단 UI -->
+        <div class="top-ui">
+            <div class="coin-display">💰 <span id="coin-count">0</span></div>
+            <div class="timer-display">⏱️ <span id="play-time">00:00</span></div>
+        </div>
+
+        <!-- 하단 바로가기 버튼 -->
+        <div class="main-buttons">
+            <button class="menu-btn" id="open-wardrobe">👗</button>
+            <button class="menu-btn" id="open-pet-menu">🐰</button>
+        </div>
+
+        <!-- 옷장 오버레이 -->
+        <div class="overlay" id="wardrobe-overlay">
+            <div class="overlay-content">
+                <button class="close-btn">&times;</button>
+                <h2>마법의 옷장</h2>
+                <div class="category-icons">
+                    <div class="cat-btn active" data-cat="dress">👗</div>
+                    <div class="cat-btn" data-cat="acc">👑</div>
+                    <div class="cat-btn" data-cat="wings">🦋</div>
+                    <div class="cat-btn" data-cat="shoes">👠</div>
+                </div>
+                <div class="item-grid" id="wardrobe-grid">
+                    <!-- JS에서 생성 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fx-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
