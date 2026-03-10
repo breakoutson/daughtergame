@@ -4,268 +4,278 @@ import os
 import math
 import random
 
-# --- 1. 초기화 및 환경 설정 ---
+# --- 1. 초기화 & 화면 설정 ---
 pygame.init()
 WIDTH, HEIGHT = 1000, 750
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("🏠 마법의 공주님 집 🏠")
+pygame.display.set_caption("👸 우리 딸 공주님 어드벤처 V7 - ROBLOX Style 👸")
 clock = pygame.time.Clock()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(BASE_DIR, "assets")
 
 def load_img(path, scale=None):
-    full_path = os.path.join(ASSETS, path)
-    if not os.path.exists(full_path):
-        surf = pygame.Surface((50, 50), pygame.SRCALPHA)
-        surf.fill((255, 0, 255, 128))
-        return surf
-    img = pygame.image.load(full_path).convert_alpha()
+    fp = os.path.join(ASSETS, path)
+    if not os.path.exists(fp): return None
+    img = pygame.image.load(fp).convert_alpha()
     if scale:
-        w, h = img.get_size()
-        img = pygame.transform.smoothscale(img, (int(w * scale), int(h * scale)))
+        img = pygame.transform.smoothscale(img, (int(img.get_width() * scale), int(img.get_height() * scale)))
     return img
 
 class Player:
     def __init__(self):
-        self.pos = [WIDTH // 2, HEIGHT // 2 + 100]
-        self.speed = 5
+        self.pos = pygame.Vector2(500, 500)
+        self.speed = 6
         self.direction = "front"
-        self.frame = 0
-        self.walking = False
-        self.outfit = {"dress": None, "acc": None, "wings": None, "shoes": None}
+        self.moving = False
+        self.outfit = {"dress": None, "wings": False, "acc": False}
         
-        # 스케일 조정 (0.8 정도로 캐릭터와 배경 비율 맞춤)
-        self.scale = 0.8
-        # 슬라이싱된 프레임 로드
-        self.frames = {
-            "front": [load_img(f"player_sheet_frames/front_{i}.png", self.scale) for i in range(4)],
-            "back": [load_img(f"player_sheet_frames/back_{i}.png", self.scale) for i in range(4)],
-            "left": [load_img(f"player_sheet_frames/left_{i}.png", self.scale) for i in range(4)],
-            "right": [load_img(f"player_sheet_frames/right_{i}.png", self.scale) for i in range(4)],
+        # 원본 소스 (깨짐 방지 위해 고해상도로 유지 및 참조)
+        self.raw_images = {
+            "front": load_img("player_v6/front.png"),
+            "back": load_img("player_v6/back.png"),
+            "side_l": load_img("player_v6/side_l.png"),
+            "side_r": load_img("player_v6/side_r.png"),
+        }
+        # 집 안 캐릭터 기본 크기 (220px로 약간 상향)
+        self.base_height = 220
+        self.images = {}
+        self._refresh_images(1.0)
+        
+        # 방향 교정: side_r을 기본으로 쓰고 side_l은 flip 처리
+        self.raw_images["side_r"] = self.raw_images.get("side_r")
+        if self.raw_images["side_r"]:
+            self.raw_images["side_l"] = pygame.transform.flip(self.raw_images["side_r"], True, False)
+        
+        # 옷들도 미리 로드
+        self.clothes = {
+            "pink": load_img("pink_dress_fixed.png"),
+            "yellow": load_img("yellow_dress_fixed.png"),
+            "wings": load_img("wings_fixed.png"),
+            "crown": load_img("crown_fixed.png")
         }
 
-    def update(self, keys):
-        dx, dy = 0, 0
-        moved = False
-        
-        # 대각선 이동 시에도 방향 하나가 고정되도록 로직 개선 (좌우 우선)
-        if keys[pygame.K_LEFT]:
-            dx = -self.speed
-            self.direction = "left"
-            moved = True
-        elif keys[pygame.K_RIGHT]:
-            dx = self.speed
-            self.direction = "right"
-            moved = True
-        
-        if keys[pygame.K_UP]:
-            dy = -self.speed
-            if dx == 0: self.direction = "back"
-            moved = True
-        elif keys[pygame.K_DOWN]:
-            dy = self.speed
-            if dx == 0: self.direction = "front"
-            moved = True
+    def _refresh_images(self, sc):
+        for k, v in self.raw_images.items():
+            if v:
+                h = int(self.base_height * sc)
+                w = int(v.get_width() * (h / v.get_height()))
+                self.images[k] = pygame.transform.smoothscale(v, (w, h))
 
-        if moved:
-            self.pos[0] += dx
-            self.pos[1] += dy
-            self.frame = (self.frame + 0.15) % 4
-            self.walking = True
+    def update(self, keys, obstacles):
+        dv = pygame.Vector2(0, 0)
+        
+        # 키 입력 (확실한 방향 감지)
+        if keys[pygame.K_LEFT]: dv.x = -1; self.direction = "side_l"
+        elif keys[pygame.K_RIGHT]: dv.x = 1; self.direction = "side_r"
+        elif keys[pygame.K_UP]: dv.y = -1; self.direction = "back"
+        elif keys[pygame.K_DOWN]: dv.y = 1; self.direction = "front"
+
+        if dv.length() > 0:
+            new_pos = self.pos + dv.normalize() * self.speed
+            # 발 근처 작은 히트박스로 유연하게 이동
+            char_rect = pygame.Rect(0, 0, 40, 20)
+            char_rect.midbottom = (new_pos.x, new_pos.y)
+            
+            can_move = True
+            for obs in obstacles:
+                if char_rect.colliderect(obs):
+                    can_move = False; break
+            
+            if can_move:
+                self.pos = new_pos
+            self.moving = True
         else:
-            self.frame = 0
-            self.walking = False
+            self.moving = False
 
-        # 화면 경계 제한
-        self.pos[0] = max(50, min(WIDTH-50, self.pos[0]))
-        self.pos[1] = max(150, min(HEIGHT-50, self.pos[1]))
+        # 월드 경계
+        self.pos.x = max(50, min(WIDTH-50, self.pos.x))
+        self.pos.y = max(350, min(HEIGHT-10, self.pos.y))
 
-    def draw(self, surf, center_pos=None):
-        draw_pos = center_pos if center_pos else self.pos
-        sprite = self.frames[self.direction][int(self.frame)]
-        rect = sprite.get_rect(center=draw_pos)
+    def draw(self, surf, center_at=None, zoom=1.0):
+        at = center_at if center_at else self.pos
+        img = self.images.get(self.direction)
         
-        # 걷기 반동 효과
-        bounce = math.sin(self.frame * math.pi) * 3 if self.walking else 0
+        # 줌 처리 (고화질 유지)
+        if zoom > 1.0:
+            raw = self.raw_images.get(self.direction)
+            if raw:
+                h = int(self.base_height * zoom)
+                w = int(raw.get_width() * (h / raw.get_height()))
+                img = pygame.transform.smoothscale(raw, (w, h))
+            
+        if not img: return
+        b = math.sin(pygame.time.get_ticks() * 0.015) * 4 if self.moving else 0
+        rect = img.get_rect(center=(at.x, at.y + b))
         
         # 1. 날개 (캐릭터 뒤)
         if self.outfit["wings"]:
-            w = self.outfit["wings"]
-            surf.blit(w, w.get_rect(center=(draw_pos[0], draw_pos[1] - 5)))
+            w_img = self.clothes.get("wings")
+            if w_img:
+                wh = int(200 * zoom); ww = int(w_img.get_width() * (wh / w_img.get_height()))
+                w_img_s = pygame.transform.smoothscale(w_img, (ww, wh))
+                off_z = -5 if self.direction == "back" else 5
+                surf.blit(w_img_s, w_img_s.get_rect(center=(at.x, at.y + off_z*zoom + b)))
+
+        # 2. 캐릭터 본체 (내복이 포함된 베이스)
+        surf.blit(img, rect)
         
-        # 2. 캐릭터 본체
-        surf.blit(sprite, rect)
-        
-        # 3. 옷 & 액세서리 (좌표 정밀 보정)
-        if self.outfit["dress"]: 
-            d = self.outfit["dress"]
-            surf.blit(d, d.get_rect(center=(draw_pos[0], draw_pos[1] + 25 + bounce)))
-        if self.outfit["acc"]: 
-            a = self.outfit["acc"]
-            surf.blit(a, a.get_rect(center=(draw_pos[0], draw_pos[1] - 65 + bounce)))
-        if self.outfit["shoes"]: 
-            s = self.outfit["shoes"]
-            surf.blit(s, s.get_rect(center=(draw_pos[0], draw_pos[1] + 115)))
+        # 3. 옷 & 왕관 (모든 방향 적용)
+        if self.outfit["dress"]:
+            d_img_raw = self.clothes.get(self.outfit["dress"])
+            if d_img_raw:
+                dh = int(140 * zoom); dw = int(d_img_raw.get_width() * (dh / d_img_raw.get_height()))
+                d_img = pygame.transform.smoothscale(d_img_raw, (dw, dh))
+                
+                # 방향에 따른 드레스 보정
+                if self.direction == "side_l":
+                    d_img = pygame.transform.flip(d_img, True, False) # 드레스도 플립
+                    d_img = pygame.transform.smoothscale(d_img, (int(dw*0.6), dh)) # 옆모습은 좁게
+                elif self.direction == "side_r":
+                    d_img = pygame.transform.smoothscale(d_img, (int(dw*0.6), dh))
+                elif self.direction == "back":
+                    # 뒷모습은 드레스만 보이면 되므로 본체 위에 덮어씌움 (내복 가리기)
+                    d_img = pygame.transform.smoothscale(d_img, (dw, dh))
+                
+                # 드레스 위치 (내복을 최대한 가리도록 살짝 위로 조정)
+                off_y = 60 * zoom
+                surf.blit(d_img, d_img.get_rect(center=(at.x, at.y + off_y + b)))
+            
+        if self.outfit["acc"]:
+            a_img_raw = self.clothes.get("crown")
+            if a_img_raw:
+                ah = int(50 * zoom); aw = int(a_img_raw.get_width() * (ah / a_img_raw.get_height()))
+                a_img = pygame.transform.smoothscale(a_img_raw, (aw, ah))
+                if self.direction == "side_l": a_img = pygame.transform.flip(a_img, True, False)
+                
+                off_y = -95 * zoom
+                surf.blit(a_img, a_img.get_rect(center=(at.x, at.y + off_y + b)))
 
 class Dog:
     def __init__(self):
-        self.scale = 0.5
-        self.frames = {
-            "front": [load_img(f"dog_sheet_frames/front_{i}.png", self.scale) for i in range(4)],
-            "back": [load_img(f"dog_sheet_frames/back_{i}.png", self.scale) for i in range(4)],
-            "left": [load_img(f"dog_sheet_frames/left_{i}.png", self.scale) for i in range(4)],
-            "right": [load_img(f"dog_sheet_frames/right_{i}.png", self.scale) for i in range(4)],
+        # 강아지 사이즈 상향 (0.3 -> 0.6)
+        sc = 0.6
+        self.images = {
+            "idle": load_img("dog_v6/idle.png", sc),
+            "walk_1": load_img("dog_v6/walk_1.png", sc),
+            "walk_2": load_img("dog_v6/walk_2.png", sc),
+            "sleep": load_img("dog_v6/sleep.png", sc),
         }
-        self.pos = [random.randint(200, 800), random.randint(350, 600)]
-        self.direction = "front"
-        self.frame = 0
-        self.state = "idle" # idle, walk, sleep
+        self.pos = pygame.Vector2(300, 600)
+        self.state = "idle"
+        self.target = pygame.Vector2(self.pos)
         self.timer = 0
-        self.target = list(self.pos)
 
-    def update(self):
+    def update(self, obstacles):
         self.timer += 1
-        if self.timer % 180 == 0:
-            self.state = random.choice(["idle", "idle", "walk", "sleep"])
+        if self.timer % 150 == 0:
+            self.state = random.choice(["idle", "walk", "sleep"])
             if self.state == "walk":
-                self.target = [random.randint(200, 800), random.randint(350, 600)]
-        
+                self.target = pygame.Vector2(random.randint(100, 900), random.randint(400, 700))
+
         if self.state == "walk":
-            dx = self.target[0] - self.pos[0]
-            dy = self.target[1] - self.pos[1]
-            if abs(dx) > 5 or abs(dy) > 5:
-                if abs(dx) > abs(dy): self.direction = "right" if dx > 0 else "left"
-                else: self.direction = "front" if dy > 0 else "back"
-
-                self.pos[0] += dx / 60
-                self.pos[1] += dy / 60
-                self.frame = (self.frame + 0.1) % 4
-            else:
-                self.state = "idle"
-                self.frame = 0
-        elif self.state == "sleep":
-            self.direction = "back"
-            self.frame = 0
-        else:
-            self.frame = 0
-
+            dist = self.target - self.pos
+            if dist.length() > 5:
+                self.pos += dist.normalize() * 1.2
+            else: self.state = "idle"
+            
     def draw(self, surf):
-        sprite = self.frames[self.direction][int(self.frame)]
-        surf.blit(sprite, sprite.get_rect(center=self.pos))
+        img_key = self.state if self.state != "walk" else ("walk_1" if (pygame.time.get_ticks()//200)%2 == 0 else "walk_2")
+        img = self.images.get(img_key)
+        if img: surf.blit(img, img.get_rect(center=self.pos))
 
 class GameEngine:
     def __init__(self):
         self.player = Player()
+        # 캐릭터 시작 위치 조정 (장애물 밖으로)
+        self.player.pos = pygame.Vector2(500, 650)
         self.dog = Dog()
-        self.current_room = "living" # living, wardrobe, bedroom, kitchen, bathroom
-        self.bg = {
-            "living": load_img("rooms/living.png"),
-            "wardrobe": load_img("rooms/wardrobe.png"),
-            "bedroom": load_img("rooms/bedroom.png"),
-            "kitchen": load_img("rooms/kitchen.png"),
-            "bathroom": load_img("rooms/bathroom.png")
-        }
-        
-        # 옷 아이템
-        sc = 0.35
-        self.items = {
-            "pink": load_img("pink_dress.png", sc),
-            "yellow": load_img("yellow_dress.png", sc),
-            "crown": load_img("crown.png", 0.18),
-            "wings": load_img("wings.png", 0.6)
+        self.room = "living"
+        self.bgs = {
+            "living": load_img("rooms/living_roblox.png"),
+            "wardrobe": load_img("rooms/wardrobe_roblox.png"),
+            "bedroom": load_img("rooms/bedroom_roblox.png")
         }
         self.font = pygame.font.SysFont("arial", 22, bold=True)
-        self.close_btn_rect = pygame.Rect(WIDTH - 150, 30, 120, 50)
-
-    def draw_close_button(self):
-        pygame.draw.rect(screen, (255, 100, 100), self.close_btn_rect, border_radius=10)
-        label = self.font.render("<- EXIT", True, (255, 255, 255))
-        screen.blit(label, (WIDTH - 130, 42))
+        # 장애물 히트박스 최적화 (이동 공간 확보)
+        self.obstacles = [
+            pygame.Rect(60, 520, 350, 100),  # 소파
+            pygame.Rect(440, 430, 140, 70),  # 벽난로
+            pygame.Rect(440, 670, 250, 40),  # 테이블
+            pygame.Rect(720, 520, 250, 150), # 창가 수납장
+        ]
+        # 문 영역 (거절되지 않을 정도의 넉넉한 히트박스)
+        self.doors = {
+            "wardrobe": pygame.Rect(900, 400, 100, 300),
+            "bedroom": pygame.Rect(350, 350, 300, 80)
+        }
 
     def run(self):
         while True:
-            screen.fill((0, 0, 0))
+            screen.fill((255, 255, 255))
             keys = pygame.key.get_pressed()
             mx, my = pygame.mouse.get_pos()
-            mouse_clicked = False
-
+            click = False
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit(); sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_clicked = True
+                if event.type == pygame.QUIT: pygame.quit(); sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN: click = True
 
-            # 룸에 따른 로직 분기
-            if self.current_room == "living":
-                # 거실: 캐릭터 이동 가능
-                self.player.update(keys)
-                self.dog.update()
-                
-                # 배경 그리기
-                bg_surf = pygame.transform.scale(self.bg["living"], (WIDTH, HEIGHT))
-                screen.blit(bg_surf, (0, 0))
-                
-                # 방 이동 가이드
-                screen.blit(self.font.render("Dress Room ->", True, (0, 0, 0)), (850, 400))
-                screen.blit(self.font.render("<- Kitchen", True, (0, 0, 0)), (20, 400))
-                screen.blit(self.font.render("Bedroom ^", True, (0, 0, 0)), (450, 150))
-                screen.blit(self.font.render("Bathroom (L)", True, (0,0,0)), (50, 550))
+            bg = self.bgs.get(self.room)
+            if bg: screen.blit(pygame.transform.scale(bg, (WIDTH, HEIGHT)), (0, 0))
 
-                # 이동 감지
-                px, py = self.player.pos
-                if px > 950: self.current_room = "wardrobe"
-                elif px < 50: self.current_room = "kitchen"
-                elif py < 200: self.current_room = "bedroom"
-                elif px < 100 and py > 500: self.current_room = "bathroom"
-
+            if self.room == "living":
+                self.player.update(keys, self.obstacles)
+                self.dog.update(self.obstacles)
                 self.player.draw(screen)
                 self.dog.draw(screen)
-
+                
+                # 방 이동 가이드
+                screen.blit(self.font.render("Dress Room ->", True, (0, 0, 0)), (850, 450))
+                
+                for target, rect in self.doors.items():
+                    if rect.collidepoint(self.player.pos):
+                        self.room = target
+                        self.player.direction = "front" # 방 진입 시 정면 응시
+                        self.player.pos = pygame.Vector2(WIDTH//2, 650)
             else:
-                # 다른 방: 캐릭터는 중앙에 고정 (정적인 뷰)
-                bg_surf = pygame.transform.scale(self.bg[self.current_room], (WIDTH, HEIGHT))
-                screen.blit(bg_surf, (0, 0))
+                # 옷방 전문 (캐릭터 2.5배 확대, 픽셀 깨짐 방지 처리됨)
+                self.player.draw(screen, center_at=pygame.Vector2(WIDTH//2, HEIGHT//2), zoom=2.5)
                 
-                # 캐릭터 고정 표시 (거울 앞에 있는 느낌)
-                self.player.direction = "front"
-                self.player.walking = False
-                self.player.draw(screen, center_pos=(WIDTH//2, HEIGHT//2 + 50))
-                
-                # 나가기 버튼
-                self.draw_close_button()
-                if mouse_clicked and self.close_btn_rect.collidepoint(mx, my):
-                    self.current_room = "living"
-                    self.player.pos = [WIDTH // 2, HEIGHT // 2 + 100]
+                # EXIT
+                exit_r = pygame.Rect(WIDTH-150, 40, 120, 50)
+                pygame.draw.rect(screen, (255, 100, 100), exit_r, border_radius=15)
+                screen.blit(self.font.render("<- EXIT", True, (255, 255, 255)), (WIDTH-130, 52))
+                if click and exit_r.collidepoint(mx, my):
+                    self.room = "living"; self.player.pos = pygame.Vector2(800, 500)
 
-                # 옷방 코디 기능
-                if self.current_room == "wardrobe":
-                    menu = pygame.Surface((WIDTH, 140), pygame.SRCALPHA)
-                    menu.fill((255, 255, 255, 180))
-                    screen.blit(menu, (0, 610))
-                    
-                    # 아이콘 그리기 및 클릭 감지
-                    icons = [
-                        (self.items["pink"], (150, 630), "dress"),
-                        (self.items["yellow"], (350, 630), "dress"),
-                        (self.items["crown"], (580, 640), "acc"),
-                        (self.items["wings"], (840, 630), "wings")
+                # 옷 입히기 UI (토글 완벽 구현)
+                if self.room == "wardrobe":
+                    pygame.draw.rect(screen, (255, 255, 255, 210), (0, 600, WIDTH, 150))
+                    items = [
+                        ("pink", (150, 620), "dress"),
+                        ("yellow", (350, 620), "dress"),
+                        ("wings", (580, 620), "wings"),
+                        ("crown", (810, 620), "acc")
                     ]
-                    
-                    for img, pos, cat in icons:
-                        i_rect = pygame.transform.scale(img, (80, 80)).get_rect(topleft=pos)
-                        screen.blit(pygame.transform.scale(img, (80, 80)), pos)
-                        if mouse_clicked and i_rect.collidepoint(mx, my):
-                            if cat == "dress": self.player.outfit["dress"] = img
-                            elif cat == "acc": self.player.outfit["acc"] = img
-                            elif cat == "wings": self.player.outfit["wings"] = img
+                    for key, pos, cat in items:
+                        icon_raw = self.player.clothes.get(key if cat != "acc" else "crown")
+                        icon = pygame.transform.scale(icon_raw, (100, 100))
+                        btn = pygame.Rect(pos[0], pos[1], 100, 100)
+                        
+                        # 장착 강조
+                        is_on = (cat == "dress" and self.player.outfit["dress"] == key) or \
+                                (cat == "wings" and self.player.outfit["wings"]) or \
+                                (cat == "acc" and self.player.outfit["acc"])
+                        if is_on: pygame.draw.rect(screen, (255, 215, 0), btn.inflate(10, 10), 4)
 
-            # 공통 라벨
-            label = self.font.render(f"📍 Location: {self.current_room.upper()}", True, (50, 50, 50))
-            screen.blit(label, (20, 20))
+                        screen.blit(icon, pos)
+                        if click and btn.collidepoint(mx, my):
+                            if cat == "dress":
+                                self.player.outfit["dress"] = None if self.player.outfit["dress"] == key else key
+                            elif cat == "wings": self.player.outfit["wings"] = not self.player.outfit["wings"]
+                            elif cat == "acc": self.player.outfit["acc"] = not self.player.outfit["acc"]
 
             pygame.display.flip()
             clock.tick(60)
 
-if __name__ == "__main__":
-    GameEngine().run()
+if __name__ == "__main__": GameEngine().run()
