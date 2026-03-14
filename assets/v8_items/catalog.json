@@ -1,0 +1,85 @@
+{
+    "top": [
+        "top_1.png",
+        "top_2.png",
+        "top_3.png",
+        "top_4.png",
+        "top_5.png",
+        "top_6.png",
+        "top_7.png",
+        "top_8.png",
+        "top_9.png",
+        "top_10.png"
+    ],
+    "bottom": [
+        "bottom_1.png",
+        "bottom_2.png",
+        "bottom_3.png",
+        "bottom_4.png",
+        "bottom_5.png",
+        "bottom_6.png",
+        "bottom_7.png",
+        "bottom_8.png",
+        "bottom_9.png",
+        "bottom_10.png"
+    ],
+    "pajamas": [
+        "pajamas_1.png",
+        "pajamas_2.png"
+    ],
+    "tracksuit": [
+        "tracksuit_1.png",
+        "tracksuit_2.png"
+    ],
+    "party_dress": [
+        "party_1.png",
+        "party_2.png",
+        "party_3.png"
+    ],
+    "hair": [
+        "hair_1.png",
+        "hair_2.png",
+        "hair_3.png",
+        "hair_4.png"
+    ],
+    "shoes_sneakers": [
+        "sneakers_1.png",
+        "sneakers_2.png",
+        "sneakers_3.png",
+        "sneakers_4.png",
+        "sneakers_5.png"
+    ],
+    "shoes_slippers": [
+        "slippers_1.png",
+        "slippers_2.png",
+        "slippers_3.png",
+        "slippers_4.png",
+        "slippers_5.png"
+    ],
+    "shoes_dress": [
+        "dress_shoes_1.png",
+        "dress_shoes_2.png",
+        "dress_shoes_3.png",
+        "dress_shoes_4.png",
+        "dress_shoes_5.png"
+    ],
+    "glasses": [
+        "glasses_1.png",
+        "glasses_2.png"
+    ],
+    "sunglasses": [
+        "sunglasses_1.png",
+        "sunglasses_2.png"
+    ],
+    "bag": [
+        "bag_1.png",
+        "bag_2.png",
+        "bag_3.png"
+    ],
+    "hat": [
+        "hat_1.png",
+        "hat_2.png",
+        "hat_3.png",
+        "hat_4.png"
+    ]
+}

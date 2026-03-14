@@ -1,0 +1,370 @@
+{
+    "top": [
+        {
+            "file": "top_1.png",
+            "type": "top",
+            "original_width": 165,
+            "original_height": 110
+        },
+        {
+            "file": "top_2.png",
+            "type": "top",
+            "original_width": 180,
+            "original_height": 98
+        },
+        {
+            "file": "top_3.png",
+            "type": "top",
+            "original_width": 180,
+            "original_height": 96
+        },
+        {
+            "file": "top_4.png",
+            "type": "top",
+            "original_width": 157,
+            "original_height": 130
+        },
+        {
+            "file": "top_5.png",
+            "type": "top",
+            "original_width": 165,
+            "original_height": 110
+        },
+        {
+            "file": "top_6.png",
+            "type": "top",
+            "original_width": 180,
+            "original_height": 98
+        },
+        {
+            "file": "top_7.png",
+            "type": "top",
+            "original_width": 180,
+            "original_height": 96
+        },
+        {
+            "file": "top_8.png",
+            "type": "top",
+            "original_width": 157,
+            "original_height": 130
+        },
+        {
+            "file": "top_9.png",
+            "type": "top",
+            "original_width": 165,
+            "original_height": 110
+        },
+        {
+            "file": "top_10.png",
+            "type": "top",
+            "original_width": 180,
+            "original_height": 98
+        }
+    ],
+    "bottom": [
+        {
+            "file": "bottom_1.png",
+            "type": "bottom",
+            "original_width": 164,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_2.png",
+            "type": "bottom",
+            "original_width": 175,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_3.png",
+            "type": "bottom",
+            "original_width": 180,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_4.png",
+            "type": "bottom",
+            "original_width": 156,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_5.png",
+            "type": "bottom",
+            "original_width": 164,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_6.png",
+            "type": "bottom",
+            "original_width": 175,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_7.png",
+            "type": "bottom",
+            "original_width": 180,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_8.png",
+            "type": "bottom",
+            "original_width": 156,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_9.png",
+            "type": "bottom",
+            "original_width": 164,
+            "original_height": 148
+        },
+        {
+            "file": "bottom_10.png",
+            "type": "bottom",
+            "original_width": 175,
+            "original_height": 148
+        }
+    ],
+    "party_dress": [
+        {
+            "file": "party_1.png",
+            "type": "full_body",
+            "original_width": 167,
+            "original_height": 148
+        },
+        {
+            "file": "party_2.png",
+            "type": "full_body",
+            "original_width": 176,
+            "original_height": 148
+        },
+        {
+            "file": "party_3.png",
+            "type": "full_body",
+            "original_width": 180,
+            "original_height": 148
+        }
+    ],
+    "tracksuit": [
+        {
+            "file": "tracksuit_1.png",
+            "type": "full_body",
+            "original_width": 164,
+            "original_height": 148
+        },
+        {
+            "file": "tracksuit_2.png",
+            "type": "full_body",
+            "original_width": 176,
+            "original_height": 148
+        }
+    ],
+    "pajamas": [
+        {
+            "file": "pajamas_1.png",
+            "type": "full_body",
+            "original_width": 166,
+            "original_height": 125
+        },
+        {
+            "file": "pajamas_2.png",
+            "type": "full_body",
+            "original_width": 173,
+            "original_height": 125
+        }
+    ],
+    "hair": [
+        {
+            "file": "hair_1.png",
+            "type": "head",
+            "original_width": 129,
+            "original_height": 117
+        },
+        {
+            "file": "hair_2.png",
+            "type": "head",
+            "original_width": 167,
+            "original_height": 108
+        },
+        {
+            "file": "hair_3.png",
+            "type": "head",
+            "original_width": 149,
+            "original_height": 88
+        },
+        {
+            "file": "hair_4.png",
+            "type": "head",
+            "original_width": 97,
+            "original_height": 105
+        }
+    ],
+    "hat": [
+        {
+            "file": "hat_1.png",
+            "type": "head_top",
+            "original_width": 122,
+            "original_height": 117
+        },
+        {
+            "file": "hat_2.png",
+            "type": "head_top",
+            "original_width": 124,
+            "original_height": 78
+        },
+        {
+            "file": "hat_3.png",
+            "type": "head_top",
+            "original_width": 110,
+            "original_height": 119
+        },
+        {
+            "file": "hat_4.png",
+            "type": "head_top",
+            "original_width": 109,
+            "original_height": 87
+        }
+    ],
+    "glasses": [
+        {
+            "file": "glasses_1.png",
+            "type": "face",
+            "original_width": 128,
+            "original_height": 112
+        },
+        {
+            "file": "glasses_2.png",
+            "type": "face",
+            "original_width": 166,
+            "original_height": 114
+        }
+    ],
+    "sunglasses": [
+        {
+            "file": "sunglasses_1.png",
+            "type": "face",
+            "original_width": 146,
+            "original_height": 127
+        },
+        {
+            "file": "sunglasses_2.png",
+            "type": "face",
+            "original_width": 94,
+            "original_height": 121
+        }
+    ],
+    "bag": [
+        {
+            "file": "bag_1.png",
+            "type": "hand",
+            "original_width": 87,
+            "original_height": 99
+        },
+        {
+            "file": "bag_2.png",
+            "type": "hand",
+            "original_width": 91,
+            "original_height": 104
+        },
+        {
+            "file": "bag_3.png",
+            "type": "hand",
+            "original_width": 113,
+            "original_height": 121
+        }
+    ],
+    "shoes_sneakers": [
+        {
+            "file": "sneakers_1.png",
+            "type": "feet",
+            "original_width": 95,
+            "original_height": 121
+        },
+        {
+            "file": "sneakers_2.png",
+            "type": "feet",
+            "original_width": 113,
+            "original_height": 98
+        },
+        {
+            "file": "sneakers_3.png",
+            "type": "feet",
+            "original_width": 79,
+            "original_height": 103
+        },
+        {
+            "file": "sneakers_4.png",
+            "type": "feet",
+            "original_width": 112,
+            "original_height": 91
+        },
+        {
+            "file": "sneakers_5.png",
+            "type": "feet",
+            "original_width": 95,
+            "original_height": 121
+        }
+    ],
+    "shoes_slippers": [
+        {
+            "file": "slippers_1.png",
+            "type": "feet",
+            "original_width": 95,
+            "original_height": 121
+        },
+        {
+            "file": "slippers_2.png",
+            "type": "feet",
+            "original_width": 113,
+            "original_height": 98
+        },
+        {
+            "file": "slippers_3.png",
+            "type": "feet",
+            "original_width": 79,
+            "original_height": 103
+        },
+        {
+            "file": "slippers_4.png",
+            "type": "feet",
+            "original_width": 112,
+            "original_height": 91
+        },
+        {
+            "file": "slippers_5.png",
+            "type": "feet",
+            "original_width": 95,
+            "original_height": 121
+        }
+    ],
+    "shoes_dress": [
+        {
+            "file": "dress_shoes_1.png",
+            "type": "feet",
+            "original_width": 95,
+            "original_height": 121
+        },
+        {
+            "file": "dress_shoes_2.png",
+            "type": "feet",
+            "original_width": 113,
+            "original_height": 98
+        },
+        {
+            "file": "dress_shoes_3.png",
+            "type": "feet",
+            "original_width": 79,
+            "original_height": 103
+        },
+        {
+            "file": "dress_shoes_4.png",
+            "type": "feet",
+            "original_width": 112,
+            "original_height": 91
+        },
+        {
+            "file": "dress_shoes_5.png",
+            "type": "feet",
+            "original_width": 95,
+            "original_height": 121
+        }
+    ]
+}

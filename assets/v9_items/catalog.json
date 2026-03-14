@@ -1,0 +1,256 @@
+{
+    "top": [
+        {
+            "file": "top_1.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_2.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_3.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_4.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_5.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_6.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_7.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_8.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_9.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "top_10.png",
+            "anchor_type": "top_center"
+        }
+    ],
+    "bottom": [
+        {
+            "file": "bottom_1.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_2.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_3.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_4.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_5.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_6.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_7.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_8.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_9.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "bottom_10.png",
+            "anchor_type": "top_center"
+        }
+    ],
+    "tracksuit": [
+        {
+            "file": "tracksuit_1.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "tracksuit_2.png",
+            "anchor_type": "top_center"
+        }
+    ],
+    "party_dress": [
+        {
+            "file": "party_1.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "party_2.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "party_3.png",
+            "anchor_type": "top_center"
+        }
+    ],
+    "pajamas": [
+        {
+            "file": "pajamas_1.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "pajamas_2.png",
+            "anchor_type": "top_center"
+        }
+    ],
+    "hair": [
+        {
+            "file": "hair_1.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "hair_2.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "hair_3.png",
+            "anchor_type": "top_center"
+        },
+        {
+            "file": "hair_4.png",
+            "anchor_type": "top_center"
+        }
+    ],
+    "glasses": [
+        {
+            "file": "glasses_1.png",
+            "anchor_type": "center"
+        },
+        {
+            "file": "glasses_2.png",
+            "anchor_type": "center"
+        }
+    ],
+    "sunglasses": [
+        {
+            "file": "sunglasses_1.png",
+            "anchor_type": "center"
+        },
+        {
+            "file": "sunglasses_2.png",
+            "anchor_type": "center"
+        }
+    ],
+    "bag": [
+        {
+            "file": "bag_1.png",
+            "anchor_type": "center"
+        },
+        {
+            "file": "bag_2.png",
+            "anchor_type": "center"
+        },
+        {
+            "file": "bag_3.png",
+            "anchor_type": "center"
+        }
+    ],
+    "hat": [
+        {
+            "file": "hat_1.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "hat_2.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "hat_3.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "hat_4.png",
+            "anchor_type": "bottom_center"
+        }
+    ],
+    "shoes_sneakers": [
+        {
+            "file": "sneakers_1.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "sneakers_2.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "sneakers_3.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "sneakers_4.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "sneakers_5.png",
+            "anchor_type": "bottom_center"
+        }
+    ],
+    "shoes_slippers": [
+        {
+            "file": "slippers_1.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "slippers_2.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "slippers_3.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "slippers_4.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "slippers_5.png",
+            "anchor_type": "bottom_center"
+        }
+    ],
+    "shoes_dress": [
+        {
+            "file": "dress_shoes_1.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "dress_shoes_2.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "dress_shoes_3.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "dress_shoes_4.png",
+            "anchor_type": "bottom_center"
+        },
+        {
+            "file": "dress_shoes_5.png",
+            "anchor_type": "bottom_center"
+        }
+    ]
+}
